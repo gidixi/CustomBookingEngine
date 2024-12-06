@@ -6,4 +6,11 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\CoreSkeletonEngine\Master\CSE.Extension\CSE.Extension.csproj" />
+    <ProjectReference Include="..\..\..\..\CoreSkeletonEngine\Master\CSE.Interfaces\CSE.Interfaces.csproj" />
+    <ProjectReference Include="..\..\..\..\CoreSkeletonEngine\Master\CSE.Service\CSE.Service.csproj" />
+    <ProjectReference Include="..\CBS.Entity\CBS.Entity.csproj" />
+  </ItemGroup>
+
 </Project>

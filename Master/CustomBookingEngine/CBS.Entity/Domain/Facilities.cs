@@ -1,6 +1,7 @@
 using System;
 namespace CBS.Entity.Domain
 {
+    //Servizi in camera
     public class Facilities
     {
         public int FacilityId { get; set; }

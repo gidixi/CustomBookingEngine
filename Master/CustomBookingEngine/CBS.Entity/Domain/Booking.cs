@@ -12,6 +12,6 @@ namespace CBS.Entity.Domain
         public decimal ServiceAmount { get; set; }
         public decimal RoomAmount { get; set; }
         public bool IsCanceled { get; set; }
-        public int CouponId { get; set; }
+        public int? CouponId { get; set; }
     }
 }
