@@ -5,6 +5,6 @@ namespace CBS.Entity.Domain
     {
         public int PromotionApplyId { get; set; }
         public int PromotionId { get; set; }
-        public int RoomTypeId { get; set; }
+        public Guid RoomTypeId { get; set; }
     }
 }

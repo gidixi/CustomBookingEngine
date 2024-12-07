@@ -3,7 +3,7 @@ namespace CBS.Entity.Domain
 {
     public class RoomType
     {
-        public int RoomTypeId { get; set; }
+        public Guid RoomTypeId { get; set; } = Guid.NewGuid();
         public string Name { get; set; }
         public decimal DefaultPrice { get; set; }
         public int Quantity { get; set; }
@@ -12,5 +12,12 @@ namespace CBS.Entity.Domain
         public int MaxAdult { get; set; }
         public int MaxChildren { get; set; }
         public int MaxPeople { get; set; }
+
+        public Guid StructureId { get; set; }
+        public Structure Structure { get; set; }
+
+        // Relazioni
+        public ICollection<Rate> Rates { get; set; }
+
     }
 }

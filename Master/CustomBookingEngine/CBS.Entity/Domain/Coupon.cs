@@ -9,5 +9,9 @@ namespace CBS.Entity.Domain
         public decimal Reduction { get; set; }
         public DateTime EndDate { get; set; }
         public bool IsDeleted { get; set; }
+
+        public Guid? StructureId { get; set; }
+        public Structure Structure { get; set; }
+
     }
 }

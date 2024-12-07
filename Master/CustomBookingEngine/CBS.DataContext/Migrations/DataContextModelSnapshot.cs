@@ -22,13 +22,39 @@ namespace CBS.DataContext.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("CBS.Entity.Domain.Booking", b =>
+            modelBuilder.Entity("CBS.Entity.Domain.Availability", b =>
                 {
-                    b.Property<int>("BookingId")
+                    b.Property<Guid>("AvailabilityId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("AvailableQuantity")
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("BookingId"));
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("ResourceId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ResourceType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.HasKey("AvailabilityId");
+
+                    b.ToTable("Availability");
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.Booking", b =>
+                {
+                    b.Property<Guid>("BookingId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("BookingState")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("CheckinDate")
                         .HasColumnType("timestamp with time zone");
@@ -36,14 +62,14 @@ namespace CBS.DataContext.Migrations
                     b.Property<DateTime>("CheckoutDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("CouponId")
+                    b.Property<int?>("CouponId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid");
 
                     b.Property<bool>("IsCanceled")
                         .HasColumnType("boolean");
@@ -60,23 +86,26 @@ namespace CBS.DataContext.Migrations
                     b.Property<decimal>("ServiceAmount")
                         .HasColumnType("numeric");
 
+                    b.Property<Guid>("StructureId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("BookingId");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("StructureId");
 
                     b.ToTable("Booking");
                 });
 
             modelBuilder.Entity("CBS.Entity.Domain.BookingRoomDetails", b =>
                 {
-                    b.Property<int>("BookingRoomDetailsId")
+                    b.Property<Guid>("BookingRoomDetailsId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("uuid");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("BookingRoomDetailsId"));
-
-                    b.Property<int>("BookingId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("BookingId")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone");
@@ -87,8 +116,8 @@ namespace CBS.DataContext.Migrations
                     b.Property<int>("RoomQuantity")
                         .HasColumnType("integer");
 
-                    b.Property<int>("RoomTypeId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("RoomTypeId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("BookingRoomDetailsId");
 
@@ -107,8 +136,8 @@ namespace CBS.DataContext.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("BookingServiceDetailsId"));
 
-                    b.Property<int>("BookingId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("BookingId")
+                        .HasColumnType("uuid");
 
                     b.Property<int>("ServiceId")
                         .HasColumnType("integer");
@@ -126,6 +155,35 @@ namespace CBS.DataContext.Migrations
                     b.HasIndex("ServiceId");
 
                     b.ToTable("BookingServiceDetails");
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.CashRegister", b =>
+                {
+                    b.Property<Guid>("CashRegisterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("StructureId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("TransactionDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("TransactionType")
+                        .HasColumnType("integer");
+
+                    b.HasKey("CashRegisterId");
+
+                    b.HasIndex("StructureId");
+
+                    b.ToTable("CashRegister");
                 });
 
             modelBuilder.Entity("CBS.Entity.Domain.Coupon", b =>
@@ -152,18 +210,48 @@ namespace CBS.DataContext.Migrations
                     b.Property<int>("Remain")
                         .HasColumnType("integer");
 
+                    b.Property<Guid?>("StructureId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("CouponId");
+
+                    b.HasIndex("StructureId");
 
                     b.ToTable("Coupon");
                 });
 
+            modelBuilder.Entity("CBS.Entity.Domain.Currency", b =>
+                {
+                    b.Property<Guid>("CurrencyId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)");
+
+                    b.Property<decimal>("ExchangeRate")
+                        .HasColumnType("numeric");
+
+                    b.Property<bool>("IsBaseCurrency")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("CurrencyId");
+
+                    b.ToTable("Currency");
+                });
+
             modelBuilder.Entity("CBS.Entity.Domain.Customer", b =>
                 {
-                    b.Property<int>("CustomerId")
+                    b.Property<Guid>("CustomerId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CustomerId"));
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -188,6 +276,64 @@ namespace CBS.DataContext.Migrations
                     b.ToTable("Customer");
                 });
 
+            modelBuilder.Entity("CBS.Entity.Domain.Deposit", b =>
+                {
+                    b.Property<Guid>("DepositId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("numeric");
+
+                    b.Property<Guid>("BookingId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("DepositDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsRefundable")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid?>("StructureId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("DepositId");
+
+                    b.HasIndex("BookingId");
+
+                    b.HasIndex("StructureId");
+
+                    b.ToTable("Deposit");
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.Discount", b =>
+                {
+                    b.Property<Guid>("DiscountId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsGlobal")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<decimal>("Percentage")
+                        .HasColumnType("numeric");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("DiscountId");
+
+                    b.ToTable("Discount");
+                });
+
             modelBuilder.Entity("CBS.Entity.Domain.Facilities", b =>
                 {
                     b.Property<int>("FacilityId")
@@ -204,7 +350,12 @@ namespace CBS.DataContext.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid>("StructureId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("FacilityId");
+
+                    b.HasIndex("StructureId");
 
                     b.ToTable("Facilities");
                 });
@@ -220,8 +371,8 @@ namespace CBS.DataContext.Migrations
                     b.Property<int>("FacilityId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("RoomTypeId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("RoomTypeId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("FacilitiesApplyId");
 
@@ -230,6 +381,176 @@ namespace CBS.DataContext.Migrations
                     b.HasIndex("RoomTypeId");
 
                     b.ToTable("FacilitiesApply");
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.Invoice", b =>
+                {
+                    b.Property<Guid>("InvoiceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BookingId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("CustomerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Discounts")
+                        .HasColumnType("numeric");
+
+                    b.Property<DateTime>("DueDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal>("FinalAmount")
+                        .HasColumnType("numeric");
+
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("IssueDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal>("Taxes")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("numeric");
+
+                    b.HasKey("InvoiceId");
+
+                    b.HasIndex("BookingId")
+                        .IsUnique();
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("Invoice");
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.Notification", b =>
+                {
+                    b.Property<Guid>("NotificationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("BookingId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsSent")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<DateTime>("ScheduledAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("NotificationId");
+
+                    b.ToTable("Notification");
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.Owner", b =>
+                {
+                    b.Property<Guid>("OwnerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("character varying(15)");
+
+                    b.HasKey("OwnerId");
+
+                    b.ToTable("Owner");
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.Payment", b =>
+                {
+                    b.Property<Guid>("PaymentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("numeric");
+
+                    b.Property<Guid>("BookingId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CurrencyId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("CustomerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("PaymentMethodId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("TransactionId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("PaymentId");
+
+                    b.HasIndex("BookingId");
+
+                    b.HasIndex("CurrencyId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("PaymentMethodId");
+
+                    b.ToTable("Payment");
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.PaymentMethod", b =>
+                {
+                    b.Property<Guid>("PaymentMethodId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.HasKey("PaymentMethodId");
+
+                    b.ToTable("PaymentMethod");
                 });
 
             modelBuilder.Entity("CBS.Entity.Domain.Promotion", b =>
@@ -256,7 +577,12 @@ namespace CBS.DataContext.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<Guid>("StructureId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("PromotionId");
+
+                    b.HasIndex("StructureId");
 
                     b.ToTable("Promotion");
                 });
@@ -272,8 +598,8 @@ namespace CBS.DataContext.Migrations
                     b.Property<int>("PromotionId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("RoomTypeId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("RoomTypeId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("PromotionApplyId");
 
@@ -284,6 +610,138 @@ namespace CBS.DataContext.Migrations
                     b.ToTable("PromotionApply");
                 });
 
+            modelBuilder.Entity("CBS.Entity.Domain.Quote", b =>
+                {
+                    b.Property<Guid>("QuoteId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("EstimatedAmount")
+                        .HasColumnType("numeric");
+
+                    b.Property<DateTime>("ExpiryDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("IssueDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("QuoteId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("Quote");
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.Rate", b =>
+                {
+                    b.Property<Guid>("RateId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("RoomTypeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("SeasonId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("StructureId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("RateId");
+
+                    b.HasIndex("RoomTypeId");
+
+                    b.HasIndex("SeasonId");
+
+                    b.HasIndex("StructureId");
+
+                    b.ToTable("Rate");
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.Refund", b =>
+                {
+                    b.Property<Guid>("RefundId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("PaymentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Reason")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("RefundAmount")
+                        .HasColumnType("numeric");
+
+                    b.Property<DateTime>("RefundDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("RefundId");
+
+                    b.HasIndex("PaymentId");
+
+                    b.ToTable("Refund");
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.Report", b =>
+                {
+                    b.Property<Guid>("ReportId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<DateTime>("GeneratedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("ReportData")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("ReportId");
+
+                    b.ToTable("Report");
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.Role", b =>
+                {
+                    b.Property<Guid>("RoleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("RoleName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.HasKey("RoleId");
+
+                    b.ToTable("Role");
+                });
+
             modelBuilder.Entity("CBS.Entity.Domain.Room", b =>
                 {
                     b.Property<int>("RoomNumber")
@@ -292,11 +750,11 @@ namespace CBS.DataContext.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("RoomNumber"));
 
-                    b.Property<bool>("IsOccupied")
-                        .HasColumnType("boolean");
-
-                    b.Property<int>("RoomTypeId")
+                    b.Property<int>("RoomState")
                         .HasColumnType("integer");
+
+                    b.Property<Guid>("RoomTypeId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("RoomNumber");
 
@@ -307,11 +765,9 @@ namespace CBS.DataContext.Migrations
 
             modelBuilder.Entity("CBS.Entity.Domain.RoomType", b =>
                 {
-                    b.Property<int>("RoomTypeId")
+                    b.Property<Guid>("RoomTypeId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("RoomTypeId"));
+                        .HasColumnType("uuid");
 
                     b.Property<decimal>("DefaultPrice")
                         .HasColumnType("numeric");
@@ -339,31 +795,64 @@ namespace CBS.DataContext.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
 
+                    b.Property<Guid>("StructureId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("RoomTypeId");
+
+                    b.HasIndex("StructureId");
 
                     b.ToTable("RoomType");
                 });
 
             modelBuilder.Entity("CBS.Entity.Domain.RoomTypeImages", b =>
                 {
-                    b.Property<int>("RoomTypeImageId")
+                    b.Property<Guid>("RoomTypeImageId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("RoomTypeImageId"));
+                        .HasColumnType("uuid");
 
                     b.Property<byte[]>("ImageData")
                         .IsRequired()
                         .HasColumnType("bytea");
 
-                    b.Property<int>("RoomTypeId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("RoomTypeId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("RoomTypeImageId");
 
                     b.HasIndex("RoomTypeId");
 
                     b.ToTable("RoomTypeImages");
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.Season", b =>
+                {
+                    b.Property<Guid>("SeasonId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("StructureId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("SeasonId");
+
+                    b.HasIndex("StructureId");
+
+                    b.ToTable("Season");
                 });
 
             modelBuilder.Entity("CBS.Entity.Domain.Service", b =>
@@ -390,7 +879,12 @@ namespace CBS.DataContext.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
+                    b.Property<Guid>("StructureId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("ServiceId");
+
+                    b.HasIndex("StructureId");
 
                     b.ToTable("Service");
                 });
@@ -417,13 +911,169 @@ namespace CBS.DataContext.Migrations
                     b.ToTable("ServiceImages");
                 });
 
+            modelBuilder.Entity("CBS.Entity.Domain.Structure", b =>
+                {
+                    b.Property<Guid>("StructureId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<Guid>("OwnerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("character varying(15)");
+
+                    b.Property<int>("StructureState")
+                        .HasColumnType("integer");
+
+                    b.HasKey("StructureId");
+
+                    b.HasIndex("OwnerId");
+
+                    b.ToTable("Structure");
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.Suspended", b =>
+                {
+                    b.Property<Guid>("SuspendedId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("numeric");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("DueDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("SuspendedId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("Suspended");
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.Tax", b =>
+                {
+                    b.Property<Guid>("TaxId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsIncludedInPrice")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<decimal>("Percentage")
+                        .HasColumnType("numeric");
+
+                    b.HasKey("TaxId");
+
+                    b.ToTable("Tax");
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.TouristTax", b =>
+                {
+                    b.Property<Guid>("TouristTaxId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("numeric");
+
+                    b.Property<Guid>("BookingId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("StructureId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("TaxDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("TouristTaxId");
+
+                    b.HasIndex("BookingId");
+
+                    b.HasIndex("StructureId");
+
+                    b.ToTable("TouristTax");
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.UserRole", b =>
+                {
+                    b.Property<Guid>("UserRoleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("UserRoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("UserRole");
+                });
+
             modelBuilder.Entity("CBS.Entity.Domain.Booking", b =>
                 {
-                    b.HasOne("CBS.Entity.Domain.Customer", null)
-                        .WithMany()
+                    b.HasOne("CBS.Entity.Domain.Customer", "Customer")
+                        .WithMany("Bookings")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("CBS.Entity.Domain.Structure", "Structure")
+                        .WithMany("Bookings")
+                        .HasForeignKey("StructureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Structure");
                 });
 
             modelBuilder.Entity("CBS.Entity.Domain.BookingRoomDetails", b =>
@@ -456,6 +1106,52 @@ namespace CBS.DataContext.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("CBS.Entity.Domain.CashRegister", b =>
+                {
+                    b.HasOne("CBS.Entity.Domain.Structure", "Structure")
+                        .WithMany("CashRegisters")
+                        .HasForeignKey("StructureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Structure");
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.Coupon", b =>
+                {
+                    b.HasOne("CBS.Entity.Domain.Structure", "Structure")
+                        .WithMany()
+                        .HasForeignKey("StructureId");
+
+                    b.Navigation("Structure");
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.Deposit", b =>
+                {
+                    b.HasOne("CBS.Entity.Domain.Booking", "Booking")
+                        .WithMany("Deposits")
+                        .HasForeignKey("BookingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CBS.Entity.Domain.Structure", null)
+                        .WithMany("Deposits")
+                        .HasForeignKey("StructureId");
+
+                    b.Navigation("Booking");
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.Facilities", b =>
+                {
+                    b.HasOne("CBS.Entity.Domain.Structure", "Structure")
+                        .WithMany("Facilities")
+                        .HasForeignKey("StructureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Structure");
+                });
+
             modelBuilder.Entity("CBS.Entity.Domain.FacilitiesApply", b =>
                 {
                     b.HasOne("CBS.Entity.Domain.Facilities", null)
@@ -469,6 +1165,63 @@ namespace CBS.DataContext.Migrations
                         .HasForeignKey("RoomTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.Invoice", b =>
+                {
+                    b.HasOne("CBS.Entity.Domain.Booking", "Booking")
+                        .WithOne()
+                        .HasForeignKey("CBS.Entity.Domain.Invoice", "BookingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CBS.Entity.Domain.Customer", null)
+                        .WithMany("Invoices")
+                        .HasForeignKey("CustomerId");
+
+                    b.Navigation("Booking");
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.Payment", b =>
+                {
+                    b.HasOne("CBS.Entity.Domain.Booking", "Booking")
+                        .WithMany("Payments")
+                        .HasForeignKey("BookingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CBS.Entity.Domain.Currency", "Currency")
+                        .WithMany()
+                        .HasForeignKey("CurrencyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CBS.Entity.Domain.Customer", null)
+                        .WithMany("Payments")
+                        .HasForeignKey("CustomerId");
+
+                    b.HasOne("CBS.Entity.Domain.PaymentMethod", "PaymentMethod")
+                        .WithMany()
+                        .HasForeignKey("PaymentMethodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Booking");
+
+                    b.Navigation("Currency");
+
+                    b.Navigation("PaymentMethod");
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.Promotion", b =>
+                {
+                    b.HasOne("CBS.Entity.Domain.Structure", "Structure")
+                        .WithMany("Promotions")
+                        .HasForeignKey("StructureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Structure");
                 });
 
             modelBuilder.Entity("CBS.Entity.Domain.PromotionApply", b =>
@@ -486,6 +1239,51 @@ namespace CBS.DataContext.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("CBS.Entity.Domain.Quote", b =>
+                {
+                    b.HasOne("CBS.Entity.Domain.Customer", "Customer")
+                        .WithMany("Quotes")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.Rate", b =>
+                {
+                    b.HasOne("CBS.Entity.Domain.RoomType", "RoomType")
+                        .WithMany("Rates")
+                        .HasForeignKey("RoomTypeId");
+
+                    b.HasOne("CBS.Entity.Domain.Season", "Season")
+                        .WithMany()
+                        .HasForeignKey("SeasonId");
+
+                    b.HasOne("CBS.Entity.Domain.Structure", "Structure")
+                        .WithMany("Rates")
+                        .HasForeignKey("StructureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("RoomType");
+
+                    b.Navigation("Season");
+
+                    b.Navigation("Structure");
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.Refund", b =>
+                {
+                    b.HasOne("CBS.Entity.Domain.Payment", "Payment")
+                        .WithMany()
+                        .HasForeignKey("PaymentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Payment");
+                });
+
             modelBuilder.Entity("CBS.Entity.Domain.Room", b =>
                 {
                     b.HasOne("CBS.Entity.Domain.RoomType", null)
@@ -493,6 +1291,17 @@ namespace CBS.DataContext.Migrations
                         .HasForeignKey("RoomTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.RoomType", b =>
+                {
+                    b.HasOne("CBS.Entity.Domain.Structure", "Structure")
+                        .WithMany("RoomTypes")
+                        .HasForeignKey("StructureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Structure");
                 });
 
             modelBuilder.Entity("CBS.Entity.Domain.RoomTypeImages", b =>
@@ -504,6 +1313,28 @@ namespace CBS.DataContext.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("CBS.Entity.Domain.Season", b =>
+                {
+                    b.HasOne("CBS.Entity.Domain.Structure", "Structure")
+                        .WithMany("Seasons")
+                        .HasForeignKey("StructureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Structure");
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.Service", b =>
+                {
+                    b.HasOne("CBS.Entity.Domain.Structure", "Structure")
+                        .WithMany("Services")
+                        .HasForeignKey("StructureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Structure");
+                });
+
             modelBuilder.Entity("CBS.Entity.Domain.ServiceImages", b =>
                 {
                     b.HasOne("CBS.Entity.Domain.Service", null)
@@ -511,6 +1342,118 @@ namespace CBS.DataContext.Migrations
                         .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.Structure", b =>
+                {
+                    b.HasOne("CBS.Entity.Domain.Owner", "Owner")
+                        .WithMany("Structures")
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Owner");
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.Suspended", b =>
+                {
+                    b.HasOne("CBS.Entity.Domain.Customer", "Customer")
+                        .WithMany("Suspendeds")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.TouristTax", b =>
+                {
+                    b.HasOne("CBS.Entity.Domain.Booking", "Booking")
+                        .WithMany("TouristTaxes")
+                        .HasForeignKey("BookingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CBS.Entity.Domain.Structure", "Structure")
+                        .WithMany("TouristTaxes")
+                        .HasForeignKey("StructureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Booking");
+
+                    b.Navigation("Structure");
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.UserRole", b =>
+                {
+                    b.HasOne("CBS.Entity.Domain.Role", "Role")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.Booking", b =>
+                {
+                    b.Navigation("Deposits");
+
+                    b.Navigation("Payments");
+
+                    b.Navigation("TouristTaxes");
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.Customer", b =>
+                {
+                    b.Navigation("Bookings");
+
+                    b.Navigation("Invoices");
+
+                    b.Navigation("Payments");
+
+                    b.Navigation("Quotes");
+
+                    b.Navigation("Suspendeds");
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.Owner", b =>
+                {
+                    b.Navigation("Structures");
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.Role", b =>
+                {
+                    b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.RoomType", b =>
+                {
+                    b.Navigation("Rates");
+                });
+
+            modelBuilder.Entity("CBS.Entity.Domain.Structure", b =>
+                {
+                    b.Navigation("Bookings");
+
+                    b.Navigation("CashRegisters");
+
+                    b.Navigation("Deposits");
+
+                    b.Navigation("Facilities");
+
+                    b.Navigation("Promotions");
+
+                    b.Navigation("Rates");
+
+                    b.Navigation("RoomTypes");
+
+                    b.Navigation("Seasons");
+
+                    b.Navigation("Services");
+
+                    b.Navigation("TouristTaxes");
                 });
 #pragma warning restore 612, 618
         }

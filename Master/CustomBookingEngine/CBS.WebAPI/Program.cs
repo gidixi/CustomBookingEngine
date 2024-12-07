@@ -6,9 +6,17 @@ using CSE.Interfaces.IApi;
 using CSE.Generic.Extension;
 using System.Reflection;
 using CSE.Response.Api;
+using CBS.Entity.Domain;
+using CBS.Core.Interfaces;
+using CBS.Core.Services;
+using CSE.Service.Dapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
+#region .Net Aspire
+builder.AddServiceDefaults();
+builder.Services.AddProblemDetails();
+#endregion
 
 builder.Services.AddControllers();
 
@@ -51,7 +59,21 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddData<DataContext>(Assembly.GetAssembly(typeof(EntityAssembly)));
 
+
+builder.Services.AddScoped<IDapperService>(provider =>
+    new DapperService<DataContext>(provider.GetRequiredService<DataContext>(), "public"));
+
+
 builder.Services.AddScoped(typeof(IApiResponse<>), typeof(ApiResponse<>));
+
+builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddScoped<IBookingRoomDetailsService, BookingRoomDetailsService>();
+builder.Services.AddScoped<IBookingServiceDetailsService, BookingServiceDetailsService>();
+builder.Services.AddScoped<ICouponService, CouponService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<IRoomTypeService, RoomTypeService>();
+builder.Services.AddScoped<IServiceService, ServiceService>();
+builder.Services.AddScoped<IRoomService, RoomService>();
 
 #endregion
 

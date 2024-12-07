@@ -9,5 +9,9 @@ namespace CBS.Entity.Domain
         public decimal DiscountRates { get; set; }
         public bool IsDeleted { get; set; }
         public string PromotionName { get; set; }
+
+        public Guid StructureId { get; set; }
+        public Structure Structure { get; set; }
+
     }
 }

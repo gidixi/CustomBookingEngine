@@ -23,7 +23,10 @@
     <ProjectReference Include="..\..\..\..\CoreSkeletonEngine\Master\CSE.Extension\CSE.Extension.csproj" />
     <ProjectReference Include="..\..\..\..\CoreSkeletonEngine\Master\CSE.Generic\CSE.Generic.csproj" />
     <ProjectReference Include="..\..\..\..\CoreSkeletonEngine\Master\CSE.Response\CSE.Response.csproj" />
+    <ProjectReference Include="..\CBS.Aspire\CBS.Aspire.ServiceDefaults\CBS.Aspire.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\CBS.Core\CBS.Core.csproj" />
     <ProjectReference Include="..\CBS.DataContext\CBS.DataContext.csproj" />
+    <ProjectReference Include="..\CBS.DTO\CBS.DTO.csproj" />
   </ItemGroup>
 
 </Project>

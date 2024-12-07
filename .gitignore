@@ -8,3 +8,9 @@
 /Master/CustomBookingEngine/CBS.Entity/bin
 /Master/CustomBookingEngine/CBS.Entity/obj
 /Master/CustomBookingEngine/CBS.WebAPI/bin
+/Master/CustomBookingEngine/CBS.Aspire/CBS.Aspire.AppHost/bin
+/Master/CustomBookingEngine/CBS.Aspire/CBS.Aspire.AppHost/obj
+/Master/CustomBookingEngine/CBS.Aspire/CBS.Aspire.ServiceDefaults/bin
+/Master/CustomBookingEngine/CBS.Aspire/CBS.Aspire.ServiceDefaults/obj
+/Master/CustomBookingEngine/CBS.DTO/obj
+/Master/CustomBookingEngine/CBS.DTO/bin
