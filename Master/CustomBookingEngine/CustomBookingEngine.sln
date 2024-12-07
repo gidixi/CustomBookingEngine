@@ -41,7 +41,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CBS.WebAPI", "CBS.WebAPI\CB
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CBS.DTO", "CBS.DTO\CBS.DTO.csproj", "{10ACF6F5-642E-4F7C-B702-72F95B1D5989}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CBS.Aspire.AppHost", "CBS.Aspire\CBS.Aspire.AppHost\CBS.Aspire.AppHost.csproj", "{1C30CDCC-7028-4215-AA8F-75A474E330AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CBS.Aspire.AppHost", "CBS.Aspire\CBS.Aspire.AppHost\CBS.Aspire.AppHost.csproj", "{1C30CDCC-7028-4215-AA8F-75A474E330AE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CBS.Aspire.ServiceDefaults", "CBS.Aspire\CBS.Aspire.ServiceDefaults\CBS.Aspire.ServiceDefaults.csproj", "{DDB00AC0-A29E-4B74-94BB-F91EF7287D3E}"
 EndProject

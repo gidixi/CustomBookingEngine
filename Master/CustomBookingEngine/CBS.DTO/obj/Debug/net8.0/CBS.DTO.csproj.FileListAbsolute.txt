@@ -1,0 +1,12 @@
+D:\Sviluppo\GitCs\CustomBookingEngine\Master\CustomBookingEngine\CBS.DTO\bin\Debug\net8.0\CBS.DTO.deps.json
+D:\Sviluppo\GitCs\CustomBookingEngine\Master\CustomBookingEngine\CBS.DTO\bin\Debug\net8.0\CBS.DTO.dll
+D:\Sviluppo\GitCs\CustomBookingEngine\Master\CustomBookingEngine\CBS.DTO\bin\Debug\net8.0\CBS.DTO.pdb
+D:\Sviluppo\GitCs\CustomBookingEngine\Master\CustomBookingEngine\CBS.DTO\obj\Debug\net8.0\CBS.DTO.GeneratedMSBuildEditorConfig.editorconfig
+D:\Sviluppo\GitCs\CustomBookingEngine\Master\CustomBookingEngine\CBS.DTO\obj\Debug\net8.0\CBS.DTO.AssemblyInfoInputs.cache
+D:\Sviluppo\GitCs\CustomBookingEngine\Master\CustomBookingEngine\CBS.DTO\obj\Debug\net8.0\CBS.DTO.AssemblyInfo.cs
+D:\Sviluppo\GitCs\CustomBookingEngine\Master\CustomBookingEngine\CBS.DTO\obj\Debug\net8.0\CBS.DTO.csproj.CoreCompileInputs.cache
+D:\Sviluppo\GitCs\CustomBookingEngine\Master\CustomBookingEngine\CBS.DTO\obj\Debug\net8.0\CBS.DTO.sourcelink.json
+D:\Sviluppo\GitCs\CustomBookingEngine\Master\CustomBookingEngine\CBS.DTO\obj\Debug\net8.0\CBS.DTO.dll
+D:\Sviluppo\GitCs\CustomBookingEngine\Master\CustomBookingEngine\CBS.DTO\obj\Debug\net8.0\refint\CBS.DTO.dll
+D:\Sviluppo\GitCs\CustomBookingEngine\Master\CustomBookingEngine\CBS.DTO\obj\Debug\net8.0\CBS.DTO.pdb
+D:\Sviluppo\GitCs\CustomBookingEngine\Master\CustomBookingEngine\CBS.DTO\obj\Debug\net8.0\ref\CBS.DTO.dll
