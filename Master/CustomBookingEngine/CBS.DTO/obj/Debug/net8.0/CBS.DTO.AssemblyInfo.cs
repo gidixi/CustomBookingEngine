@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CBS.DTO")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+50a2a5fd8eb9f6174ea7ea0b29c7ed345caa73f1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+73cd8a593cfbe921882a196d9e7e1ef3aa29c630")]
 [assembly: System.Reflection.AssemblyProductAttribute("CBS.DTO")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CBS.DTO")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
